@@ -1,0 +1,936 @@
+{
+  "name": "@shadow-js/primitives",
+  "version": "1.0.0",
+  "description": "Unstyled, accessible building blocks such as dialog, popover, menu, select and tabs",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/dev/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/index.js",
+        "default": "./dist/prod/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/index.js",
+        "default": "./dist/server/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/index.js",
+        "default": "./dist/server/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/index.js",
+        "default": "./dist/server/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/index.js",
+        "default": "./dist/server/index.js"
+      },
+      "development": "./dist/dev/index.js",
+      "default": "./dist/prod/index.js"
+    },
+    "./accordion": {
+      "types": "./dist/dev/accordion/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/accordion/index.js",
+        "default": "./dist/prod/accordion/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/accordion/index.js",
+        "default": "./dist/server/accordion/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/accordion/index.js",
+        "default": "./dist/server/accordion/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/accordion/index.js",
+        "default": "./dist/server/accordion/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/accordion/index.js",
+        "default": "./dist/server/accordion/index.js"
+      },
+      "development": "./dist/dev/accordion/index.js",
+      "default": "./dist/prod/accordion/index.js"
+    },
+    "./alert-dialog": {
+      "types": "./dist/dev/alert-dialog/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/alert-dialog/index.js",
+        "default": "./dist/prod/alert-dialog/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/alert-dialog/index.js",
+        "default": "./dist/server/alert-dialog/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/alert-dialog/index.js",
+        "default": "./dist/server/alert-dialog/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/alert-dialog/index.js",
+        "default": "./dist/server/alert-dialog/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/alert-dialog/index.js",
+        "default": "./dist/server/alert-dialog/index.js"
+      },
+      "development": "./dist/dev/alert-dialog/index.js",
+      "default": "./dist/prod/alert-dialog/index.js"
+    },
+    "./calendar": {
+      "types": "./dist/dev/calendar/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/calendar/index.js",
+        "default": "./dist/prod/calendar/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/calendar/index.js",
+        "default": "./dist/server/calendar/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/calendar/index.js",
+        "default": "./dist/server/calendar/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/calendar/index.js",
+        "default": "./dist/server/calendar/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/calendar/index.js",
+        "default": "./dist/server/calendar/index.js"
+      },
+      "development": "./dist/dev/calendar/index.js",
+      "default": "./dist/prod/calendar/index.js"
+    },
+    "./checkbox": {
+      "types": "./dist/dev/checkbox/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/checkbox/index.js",
+        "default": "./dist/prod/checkbox/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/checkbox/index.js",
+        "default": "./dist/server/checkbox/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/checkbox/index.js",
+        "default": "./dist/server/checkbox/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/checkbox/index.js",
+        "default": "./dist/server/checkbox/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/checkbox/index.js",
+        "default": "./dist/server/checkbox/index.js"
+      },
+      "development": "./dist/dev/checkbox/index.js",
+      "default": "./dist/prod/checkbox/index.js"
+    },
+    "./collapsible": {
+      "types": "./dist/dev/collapsible/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/collapsible/index.js",
+        "default": "./dist/prod/collapsible/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/collapsible/index.js",
+        "default": "./dist/server/collapsible/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/collapsible/index.js",
+        "default": "./dist/server/collapsible/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/collapsible/index.js",
+        "default": "./dist/server/collapsible/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/collapsible/index.js",
+        "default": "./dist/server/collapsible/index.js"
+      },
+      "development": "./dist/dev/collapsible/index.js",
+      "default": "./dist/prod/collapsible/index.js"
+    },
+    "./combobox": {
+      "types": "./dist/dev/combobox/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/combobox/index.js",
+        "default": "./dist/prod/combobox/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/combobox/index.js",
+        "default": "./dist/server/combobox/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/combobox/index.js",
+        "default": "./dist/server/combobox/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/combobox/index.js",
+        "default": "./dist/server/combobox/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/combobox/index.js",
+        "default": "./dist/server/combobox/index.js"
+      },
+      "development": "./dist/dev/combobox/index.js",
+      "default": "./dist/prod/combobox/index.js"
+    },
+    "./context-menu": {
+      "types": "./dist/dev/context-menu/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/context-menu/index.js",
+        "default": "./dist/prod/context-menu/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/context-menu/index.js",
+        "default": "./dist/server/context-menu/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/context-menu/index.js",
+        "default": "./dist/server/context-menu/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/context-menu/index.js",
+        "default": "./dist/server/context-menu/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/context-menu/index.js",
+        "default": "./dist/server/context-menu/index.js"
+      },
+      "development": "./dist/dev/context-menu/index.js",
+      "default": "./dist/prod/context-menu/index.js"
+    },
+    "./dialog": {
+      "types": "./dist/dev/dialog/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/dialog/index.js",
+        "default": "./dist/prod/dialog/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/dialog/index.js",
+        "default": "./dist/server/dialog/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/dialog/index.js",
+        "default": "./dist/server/dialog/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/dialog/index.js",
+        "default": "./dist/server/dialog/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/dialog/index.js",
+        "default": "./dist/server/dialog/index.js"
+      },
+      "development": "./dist/dev/dialog/index.js",
+      "default": "./dist/prod/dialog/index.js"
+    },
+    "./dropdown-menu": {
+      "types": "./dist/dev/dropdown-menu/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/dropdown-menu/index.js",
+        "default": "./dist/prod/dropdown-menu/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/dropdown-menu/index.js",
+        "default": "./dist/server/dropdown-menu/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/dropdown-menu/index.js",
+        "default": "./dist/server/dropdown-menu/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/dropdown-menu/index.js",
+        "default": "./dist/server/dropdown-menu/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/dropdown-menu/index.js",
+        "default": "./dist/server/dropdown-menu/index.js"
+      },
+      "development": "./dist/dev/dropdown-menu/index.js",
+      "default": "./dist/prod/dropdown-menu/index.js"
+    },
+    "./hover-card": {
+      "types": "./dist/dev/hover-card/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/hover-card/index.js",
+        "default": "./dist/prod/hover-card/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/hover-card/index.js",
+        "default": "./dist/server/hover-card/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/hover-card/index.js",
+        "default": "./dist/server/hover-card/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/hover-card/index.js",
+        "default": "./dist/server/hover-card/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/hover-card/index.js",
+        "default": "./dist/server/hover-card/index.js"
+      },
+      "development": "./dist/dev/hover-card/index.js",
+      "default": "./dist/prod/hover-card/index.js"
+    },
+    "./label": {
+      "types": "./dist/dev/label/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/label/index.js",
+        "default": "./dist/prod/label/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/label/index.js",
+        "default": "./dist/server/label/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/label/index.js",
+        "default": "./dist/server/label/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/label/index.js",
+        "default": "./dist/server/label/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/label/index.js",
+        "default": "./dist/server/label/index.js"
+      },
+      "development": "./dist/dev/label/index.js",
+      "default": "./dist/prod/label/index.js"
+    },
+    "./menu": {
+      "types": "./dist/dev/menu/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/menu/index.js",
+        "default": "./dist/prod/menu/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/menu/index.js",
+        "default": "./dist/server/menu/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/menu/index.js",
+        "default": "./dist/server/menu/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/menu/index.js",
+        "default": "./dist/server/menu/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/menu/index.js",
+        "default": "./dist/server/menu/index.js"
+      },
+      "development": "./dist/dev/menu/index.js",
+      "default": "./dist/prod/menu/index.js"
+    },
+    "./menubar": {
+      "types": "./dist/dev/menubar/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/menubar/index.js",
+        "default": "./dist/prod/menubar/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/menubar/index.js",
+        "default": "./dist/server/menubar/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/menubar/index.js",
+        "default": "./dist/server/menubar/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/menubar/index.js",
+        "default": "./dist/server/menubar/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/menubar/index.js",
+        "default": "./dist/server/menubar/index.js"
+      },
+      "development": "./dist/dev/menubar/index.js",
+      "default": "./dist/prod/menubar/index.js"
+    },
+    "./navigation-menu": {
+      "types": "./dist/dev/navigation-menu/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/navigation-menu/index.js",
+        "default": "./dist/prod/navigation-menu/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/navigation-menu/index.js",
+        "default": "./dist/server/navigation-menu/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/navigation-menu/index.js",
+        "default": "./dist/server/navigation-menu/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/navigation-menu/index.js",
+        "default": "./dist/server/navigation-menu/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/navigation-menu/index.js",
+        "default": "./dist/server/navigation-menu/index.js"
+      },
+      "development": "./dist/dev/navigation-menu/index.js",
+      "default": "./dist/prod/navigation-menu/index.js"
+    },
+    "./number-field": {
+      "types": "./dist/dev/number-field/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/number-field/index.js",
+        "default": "./dist/prod/number-field/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/number-field/index.js",
+        "default": "./dist/server/number-field/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/number-field/index.js",
+        "default": "./dist/server/number-field/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/number-field/index.js",
+        "default": "./dist/server/number-field/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/number-field/index.js",
+        "default": "./dist/server/number-field/index.js"
+      },
+      "development": "./dist/dev/number-field/index.js",
+      "default": "./dist/prod/number-field/index.js"
+    },
+    "./one-time-password": {
+      "types": "./dist/dev/one-time-password/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/one-time-password/index.js",
+        "default": "./dist/prod/one-time-password/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/one-time-password/index.js",
+        "default": "./dist/server/one-time-password/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/one-time-password/index.js",
+        "default": "./dist/server/one-time-password/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/one-time-password/index.js",
+        "default": "./dist/server/one-time-password/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/one-time-password/index.js",
+        "default": "./dist/server/one-time-password/index.js"
+      },
+      "development": "./dist/dev/one-time-password/index.js",
+      "default": "./dist/prod/one-time-password/index.js"
+    },
+    "./package.json": "./package.json",
+    "./pagination": {
+      "types": "./dist/dev/pagination/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/pagination/index.js",
+        "default": "./dist/prod/pagination/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/pagination/index.js",
+        "default": "./dist/server/pagination/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/pagination/index.js",
+        "default": "./dist/server/pagination/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/pagination/index.js",
+        "default": "./dist/server/pagination/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/pagination/index.js",
+        "default": "./dist/server/pagination/index.js"
+      },
+      "development": "./dist/dev/pagination/index.js",
+      "default": "./dist/prod/pagination/index.js"
+    },
+    "./password-toggle-field": {
+      "types": "./dist/dev/password-toggle-field/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/password-toggle-field/index.js",
+        "default": "./dist/prod/password-toggle-field/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/password-toggle-field/index.js",
+        "default": "./dist/server/password-toggle-field/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/password-toggle-field/index.js",
+        "default": "./dist/server/password-toggle-field/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/password-toggle-field/index.js",
+        "default": "./dist/server/password-toggle-field/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/password-toggle-field/index.js",
+        "default": "./dist/server/password-toggle-field/index.js"
+      },
+      "development": "./dist/dev/password-toggle-field/index.js",
+      "default": "./dist/prod/password-toggle-field/index.js"
+    },
+    "./popover": {
+      "types": "./dist/dev/popover/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/popover/index.js",
+        "default": "./dist/prod/popover/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/popover/index.js",
+        "default": "./dist/server/popover/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/popover/index.js",
+        "default": "./dist/server/popover/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/popover/index.js",
+        "default": "./dist/server/popover/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/popover/index.js",
+        "default": "./dist/server/popover/index.js"
+      },
+      "development": "./dist/dev/popover/index.js",
+      "default": "./dist/prod/popover/index.js"
+    },
+    "./popper": {
+      "types": "./dist/dev/popper/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/popper/index.js",
+        "default": "./dist/prod/popper/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/popper/index.js",
+        "default": "./dist/server/popper/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/popper/index.js",
+        "default": "./dist/server/popper/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/popper/index.js",
+        "default": "./dist/server/popper/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/popper/index.js",
+        "default": "./dist/server/popper/index.js"
+      },
+      "development": "./dist/dev/popper/index.js",
+      "default": "./dist/prod/popper/index.js"
+    },
+    "./progress": {
+      "types": "./dist/dev/progress/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/progress/index.js",
+        "default": "./dist/prod/progress/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/progress/index.js",
+        "default": "./dist/server/progress/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/progress/index.js",
+        "default": "./dist/server/progress/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/progress/index.js",
+        "default": "./dist/server/progress/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/progress/index.js",
+        "default": "./dist/server/progress/index.js"
+      },
+      "development": "./dist/dev/progress/index.js",
+      "default": "./dist/prod/progress/index.js"
+    },
+    "./radio-group": {
+      "types": "./dist/dev/radio-group/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/radio-group/index.js",
+        "default": "./dist/prod/radio-group/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/radio-group/index.js",
+        "default": "./dist/server/radio-group/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/radio-group/index.js",
+        "default": "./dist/server/radio-group/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/radio-group/index.js",
+        "default": "./dist/server/radio-group/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/radio-group/index.js",
+        "default": "./dist/server/radio-group/index.js"
+      },
+      "development": "./dist/dev/radio-group/index.js",
+      "default": "./dist/prod/radio-group/index.js"
+    },
+    "./scroll-area": {
+      "types": "./dist/dev/scroll-area/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/scroll-area/index.js",
+        "default": "./dist/prod/scroll-area/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/scroll-area/index.js",
+        "default": "./dist/server/scroll-area/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/scroll-area/index.js",
+        "default": "./dist/server/scroll-area/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/scroll-area/index.js",
+        "default": "./dist/server/scroll-area/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/scroll-area/index.js",
+        "default": "./dist/server/scroll-area/index.js"
+      },
+      "development": "./dist/dev/scroll-area/index.js",
+      "default": "./dist/prod/scroll-area/index.js"
+    },
+    "./select": {
+      "types": "./dist/dev/select/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/select/index.js",
+        "default": "./dist/prod/select/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/select/index.js",
+        "default": "./dist/server/select/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/select/index.js",
+        "default": "./dist/server/select/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/select/index.js",
+        "default": "./dist/server/select/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/select/index.js",
+        "default": "./dist/server/select/index.js"
+      },
+      "development": "./dist/dev/select/index.js",
+      "default": "./dist/prod/select/index.js"
+    },
+    "./separator": {
+      "types": "./dist/dev/separator/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/separator/index.js",
+        "default": "./dist/prod/separator/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/separator/index.js",
+        "default": "./dist/server/separator/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/separator/index.js",
+        "default": "./dist/server/separator/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/separator/index.js",
+        "default": "./dist/server/separator/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/separator/index.js",
+        "default": "./dist/server/separator/index.js"
+      },
+      "development": "./dist/dev/separator/index.js",
+      "default": "./dist/prod/separator/index.js"
+    },
+    "./slider": {
+      "types": "./dist/dev/slider/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/slider/index.js",
+        "default": "./dist/prod/slider/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/slider/index.js",
+        "default": "./dist/server/slider/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/slider/index.js",
+        "default": "./dist/server/slider/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/slider/index.js",
+        "default": "./dist/server/slider/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/slider/index.js",
+        "default": "./dist/server/slider/index.js"
+      },
+      "development": "./dist/dev/slider/index.js",
+      "default": "./dist/prod/slider/index.js"
+    },
+    "./switch": {
+      "types": "./dist/dev/switch/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/switch/index.js",
+        "default": "./dist/prod/switch/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/switch/index.js",
+        "default": "./dist/server/switch/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/switch/index.js",
+        "default": "./dist/server/switch/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/switch/index.js",
+        "default": "./dist/server/switch/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/switch/index.js",
+        "default": "./dist/server/switch/index.js"
+      },
+      "development": "./dist/dev/switch/index.js",
+      "default": "./dist/prod/switch/index.js"
+    },
+    "./tabs": {
+      "types": "./dist/dev/tabs/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/tabs/index.js",
+        "default": "./dist/prod/tabs/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/tabs/index.js",
+        "default": "./dist/server/tabs/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/tabs/index.js",
+        "default": "./dist/server/tabs/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/tabs/index.js",
+        "default": "./dist/server/tabs/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/tabs/index.js",
+        "default": "./dist/server/tabs/index.js"
+      },
+      "development": "./dist/dev/tabs/index.js",
+      "default": "./dist/prod/tabs/index.js"
+    },
+    "./toast": {
+      "types": "./dist/dev/toast/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/toast/index.js",
+        "default": "./dist/prod/toast/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/toast/index.js",
+        "default": "./dist/server/toast/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/toast/index.js",
+        "default": "./dist/server/toast/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/toast/index.js",
+        "default": "./dist/server/toast/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/toast/index.js",
+        "default": "./dist/server/toast/index.js"
+      },
+      "development": "./dist/dev/toast/index.js",
+      "default": "./dist/prod/toast/index.js"
+    },
+    "./toggle": {
+      "types": "./dist/dev/toggle/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/toggle/index.js",
+        "default": "./dist/prod/toggle/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/toggle/index.js",
+        "default": "./dist/server/toggle/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/toggle/index.js",
+        "default": "./dist/server/toggle/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/toggle/index.js",
+        "default": "./dist/server/toggle/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/toggle/index.js",
+        "default": "./dist/server/toggle/index.js"
+      },
+      "development": "./dist/dev/toggle/index.js",
+      "default": "./dist/prod/toggle/index.js"
+    },
+    "./toggle-group": {
+      "types": "./dist/dev/toggle-group/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/toggle-group/index.js",
+        "default": "./dist/prod/toggle-group/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/toggle-group/index.js",
+        "default": "./dist/server/toggle-group/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/toggle-group/index.js",
+        "default": "./dist/server/toggle-group/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/toggle-group/index.js",
+        "default": "./dist/server/toggle-group/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/toggle-group/index.js",
+        "default": "./dist/server/toggle-group/index.js"
+      },
+      "development": "./dist/dev/toggle-group/index.js",
+      "default": "./dist/prod/toggle-group/index.js"
+    },
+    "./toolbar": {
+      "types": "./dist/dev/toolbar/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/toolbar/index.js",
+        "default": "./dist/prod/toolbar/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/toolbar/index.js",
+        "default": "./dist/server/toolbar/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/toolbar/index.js",
+        "default": "./dist/server/toolbar/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/toolbar/index.js",
+        "default": "./dist/server/toolbar/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/toolbar/index.js",
+        "default": "./dist/server/toolbar/index.js"
+      },
+      "development": "./dist/dev/toolbar/index.js",
+      "default": "./dist/prod/toolbar/index.js"
+    },
+    "./tooltip": {
+      "types": "./dist/dev/tooltip/index.d.ts",
+      "browser": {
+        "development": "./dist/dev/tooltip/index.js",
+        "default": "./dist/prod/tooltip/index.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/tooltip/index.js",
+        "default": "./dist/server/tooltip/index.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/tooltip/index.js",
+        "default": "./dist/server/tooltip/index.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/tooltip/index.js",
+        "default": "./dist/server/tooltip/index.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/tooltip/index.js",
+        "default": "./dist/server/tooltip/index.js"
+      },
+      "development": "./dist/dev/tooltip/index.js",
+      "default": "./dist/prod/tooltip/index.js"
+    },
+    "./utils": {
+      "types": "./dist/dev/utils.d.ts",
+      "browser": {
+        "development": "./dist/dev/utils.js",
+        "default": "./dist/prod/utils.js"
+      },
+      "node": {
+        "development": "./dist/server-dev/utils.js",
+        "default": "./dist/server/utils.js"
+      },
+      "worker": {
+        "development": "./dist/server-dev/utils.js",
+        "default": "./dist/server/utils.js"
+      },
+      "deno": {
+        "development": "./dist/server-dev/utils.js",
+        "default": "./dist/server/utils.js"
+      },
+      "bun": {
+        "development": "./dist/server-dev/utils.js",
+        "default": "./dist/server/utils.js"
+      },
+      "development": "./dist/dev/utils.js",
+      "default": "./dist/prod/utils.js"
+    }
+  },
+  "scripts": {
+    "build": "tsdown --config-loader native",
+    "typecheck": "tsc -p tsconfig.json",
+    "lint": "biome check .",
+    "test": "vitest run --project unit --project dom --project server",
+    "test:gc": "vitest run --project gc --passWithNoTests",
+    "test:perf": "vitest run --project perf --passWithNoTests",
+    "check": "npm run lint && npm run typecheck && npm run build && npm test && npm run test:perf && npm run test:gc"
+  },
+  "peerDependencies": {
+    "@shadow-js/core": "^1.0.0",
+    "@shadow-js/web": "^1.0.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.15",
+    "@shadow-js/compiler": "^1.0.0",
+    "@shadow-js/core": "^1.0.0",
+    "@shadow-js/testing": "^1.0.0",
+    "@shadow-js/web": "^1.0.0",
+    "@types/node": "^24.0.0",
+    "fast-check": "^4.10.2",
+    "happy-dom": "^21.0.3",
+    "tsdown": "0.23.0",
+    "typescript": "7.0.2",
+    "vitest": "5.0.3"
+  },
+  "homepage": "https://primitives.shadowjs.net",
+  "keywords": [
+    "shadowjs",
+    "primitives"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shadowjs-dev/primitives.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shadowjs-dev/primitives/issues"
+  }
+}
