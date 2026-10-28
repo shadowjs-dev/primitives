@@ -5,7 +5,7 @@ description: "Work with @shadow-js/primitives. Unstyled, accessible building blo
 
 # @shadow-js/primitives
 
-Version 1.0.0. Unstyled, accessible building blocks such as dialog, popover, menu, select and tabs.
+Version 1.0.1. Unstyled, accessible building blocks such as dialog, popover, menu, select and tabs.
 
 ## Where to read more
 
@@ -23,8 +23,8 @@ npm install @shadow-js/primitives @shadow-js/core @shadow-js/web
 
 | Package | Range | Required |
 | --- | --- | --- |
-| `@shadow-js/core` | `^1.0.0` | yes |
-| `@shadow-js/web` | `^1.0.0` | yes |
+| `@shadow-js/core` | `^1.0.1` | yes |
+| `@shadow-js/web` | `^1.0.1` | yes |
 
 ## Import paths
 
