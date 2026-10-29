@@ -1,4 +1,4 @@
-import { onCleanup, onMount, splitProps, untrack } from "@shadow-js/core";
+import { onCleanup, onMount, splitProps, untrack, useEffect, useMemo } from "@shadow-js/core";
 import type { JsxChild } from "@shadow-js/web/jsx-runtime";
 import {
   composeEventHandlers,
@@ -23,6 +23,9 @@ import {
   getValueFromPointer,
   type SlideDirection,
 } from "./logic";
+
+/** The step used when `step` is missing or not a positive number. */
+const DEFAULT_STEP = 1;
 
 /**
  * Own props of {@link SliderRoot}.
@@ -69,7 +72,8 @@ export interface SliderOwnProps {
    */
   readonly max?: number | undefined;
   /**
-   * Distance between allowed values.
+   * Distance between allowed values. A value that is not a positive number (`0`, negative, `NaN`) is read as `1`, for the keyboard and the
+   * pointer alike, and warns in development (`SLIDER_INVALID_STEP`).
    * @default `1`
    */
   readonly step?: number | undefined;
@@ -182,7 +186,23 @@ export function SliderRoot<T extends PolymorphicTarget = "span">(props: SliderPr
   ]);
   const min = (): number => (own.min as number | undefined) ?? 0;
   const max = (): number => (own.max as number | undefined) ?? 100;
-  const step = (): number => (own.step as number | undefined) ?? 1;
+  // A step that is zero, negative or not a number would make every key press a no-op; it reads as the default step instead.
+  const step = (): number => {
+    const requested = own.step as number | undefined;
+    return requested !== undefined && requested > 0 && Number.isFinite(requested)
+      ? requested
+      : DEFAULT_STEP;
+  };
+  if (__DEV__) {
+    useEffect(() => {
+      const requested = own.step as number | undefined;
+      if (requested !== undefined && step() !== requested) {
+        console.warn(
+          `[primitives SLIDER_INVALID_STEP] Invalid \`step\` of ${String(requested)} supplied to Slider. It must be a number greater than 0. Using ${DEFAULT_STEP}.`,
+        );
+      }
+    });
+  }
   const minSteps = (): number => (own.minStepsBetweenThumbs as number | undefined) ?? 0;
   const orientation = (): Orientation =>
     own.orientation === "vertical" ? "vertical" : "horizontal";
@@ -198,7 +218,7 @@ export function SliderRoot<T extends PolymorphicTarget = "span">(props: SliderPr
   const defaultValues = (): readonly number[] =>
     (own.defaultValue as readonly number[] | undefined) ?? [min()];
 
-  const [values, setValues] = useControllableState<readonly number[]>({
+  const [stored, setValues] = useControllableState<readonly number[]>({
     value: () => own.value as readonly number[] | undefined,
     defaultValue: defaultValues,
     onChange: () => {
@@ -208,6 +228,14 @@ export function SliderRoot<T extends PolymorphicTarget = "span">(props: SliderPr
     },
     equals: sameNumbers,
     name: "Slider value",
+  });
+
+  // A NaN (a controlled value built from an empty input) would reach the style as `calc(NaN%)` and ARIA as `NaN`: it reads as the minimum.
+  const values = useMemo((): readonly number[] => {
+    const raw = stored();
+    return raw.some((item) => Number.isNaN(item))
+      ? raw.map((item) => (Number.isNaN(item) ? min() : item))
+      : raw;
   });
 
   const thumbs = createCollection<null>();

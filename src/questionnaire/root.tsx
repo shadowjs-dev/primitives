@@ -237,14 +237,15 @@ function handleKey(
   }
   if (event.key === "ArrowUp" || event.key === "ArrowDown") {
     if (!(target instanceof HTMLInputElement) || target.type !== "checkbox") return;
-    const inputs = context.activeRecord()?.choiceInputs() ?? [];
-    const at = inputs.indexOf(target);
+    const enabled = (context.activeRecord()?.choiceInputs() ?? []).filter(
+      (input) => !input.disabled,
+    );
+    const at = enabled.indexOf(target);
+    if (at === -1) return;
+    // Wrap among the enabled boxes only: counting disabled ones too would leave the arrow stuck on the same box.
     const step = event.key === "ArrowDown" ? 1 : -1;
-    const next = inputs.filter((input) => !input.disabled)[
-      (inputs.filter((input) => !input.disabled).indexOf(target) + step + inputs.length) %
-        Math.max(1, inputs.filter((input) => !input.disabled).length)
-    ];
-    if (at === -1 || next === undefined) return;
+    const next = enabled[(at + step + enabled.length) % enabled.length];
+    if (next === undefined) return;
     event.preventDefault();
     next.focus();
     return;

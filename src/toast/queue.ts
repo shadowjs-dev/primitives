@@ -156,6 +156,12 @@ export interface ToasterOptions<D = unknown> {
    */
   readonly limit?: number | undefined;
   /**
+   * How many toasts may wait for a free slot (those past `limit`). When more are added the oldest waiting ones are dropped, so a
+   * burst of toasts cannot grow the queue without bound. `0` keeps none waiting; `NaN` or an omitted value means 100.
+   * @default 100
+   */
+  readonly maxWaiting?: number | undefined;
+  /**
    * The default `duration` of toasts that do not set one.
    * @default none (the provider's duration)
    */
@@ -227,6 +233,14 @@ export interface Toaster<D = unknown> {
 function normalizeLimit(limit: number | undefined): number {
   if (limit === undefined || Number.isNaN(limit)) return Number.POSITIVE_INFINITY;
   return Math.max(1, Math.floor(limit));
+}
+
+/** The most toasts that wait for a free slot unless {@link ToasterOptions.maxWaiting} says otherwise. */
+const DEFAULT_MAX_WAITING = 100;
+
+function normalizeMaxWaiting(raw: number | undefined): number {
+  if (raw === undefined || Number.isNaN(raw)) return DEFAULT_MAX_WAITING;
+  return Math.max(0, Math.floor(raw));
 }
 
 const PATCH_KEYS = ["title", "description", "type", "duration", "data"] as const;
@@ -303,6 +317,7 @@ function contentToPatch<D>(content: ToastContent<D>): ToastPatch<D> {
  */
 export function createToaster<D = unknown>(options: ToasterOptions<D> = {}): Toaster<D> {
   const limit = normalizeLimit(options.limit);
+  const maxWaiting = normalizeMaxWaiting(options.maxWaiting);
   const prefix = options.idPrefix ?? "toast";
   // Plain arrays are the source of truth (mutations may happen inside effects and handlers alike);
   // the signals only publish snapshots.
@@ -385,6 +400,8 @@ export function createToaster<D = unknown>(options: ToasterOptions<D> = {}): Toa
       open: true,
     });
     fill();
+    // Past the bound the oldest waiting toasts go: the newest says what is happening now.
+    if (waiting.length > maxWaiting) waiting = waiting.slice(waiting.length - maxWaiting);
     publish();
     return id;
   };
@@ -429,7 +446,14 @@ export function createToaster<D = unknown>(options: ToasterOptions<D> = {}): Toa
       ...contentToPatch(messages.loading),
       duration: Number.POSITIVE_INFINITY,
     });
-    const result = typeof source === "function" ? source() : source;
+    // A source that throws before it returns a promise is a failure like any other: without this the
+    // loading toast (which never expires) would stay on screen and the error would skip the toast.
+    let result: Promise<T>;
+    try {
+      result = typeof source === "function" ? source() : source;
+    } catch (error) {
+      result = Promise.reject(error);
+    }
     const settle = (patch: ToastPatch<D>): void => {
       // A toast the user dismissed while the promise was pending must stay dismissed.
       if (find(id)?.open !== true) return;

@@ -2,6 +2,7 @@ import { onCleanup, splitProps } from "@shadow-js/core";
 import type { JsxChild } from "@shadow-js/web/jsx-runtime";
 import {
   composeEventHandlers,
+  composeRefs,
   mergeElementProps,
   type Orientation,
   Polymorphic,
@@ -197,7 +198,7 @@ export type ScrollAreaThumbProps<T extends PolymorphicTarget = "div"> = Polymorp
 /**
  * The draggable part of a scrollbar. Its length and position follow the scroll position; dragging
  * it scrolls the viewport in proportion to the track. While a drag is in progress it listens for
- * `pointermove`, `pointerup` and `pointercancel` on `window`, and removes those listeners on pointer
+ * `pointermove`, `pointerup` and `pointercancel` on the window of the thumb's own document (so a thumb in an iframe follows the frame's pointer), and removes those listeners on pointer
  * up, cancel or disposal. Keyboard: none. ARIA: none.
  *
  * @param props See {@link ScrollAreaThumbProps}.
@@ -224,6 +225,7 @@ export function ScrollAreaThumb<T extends PolymorphicTarget = "div">(
   const bar = scrollbarContext.use("ScrollArea.Thumb");
   const [own, rest] = splitProps(partProps<Loose>(props), ["as", "onPointerDown"]);
   let stopDrag: (() => void) | undefined;
+  let thumbElement: HTMLElement | undefined;
   onCleanup(() => stopDrag?.());
 
   const reversed = (): boolean => bar.orientation === "horizontal" && context.direction() === "rtl";
@@ -256,13 +258,15 @@ export function ScrollAreaThumb<T extends PolymorphicTarget = "div">(
     const end = (endEvent: PointerEvent): void => {
       if (endEvent.pointerId === pointerId) stopDrag?.();
     };
-    window.addEventListener("pointermove", move);
-    window.addEventListener("pointerup", end);
-    window.addEventListener("pointercancel", end);
+    // The window of the thumb's own document: inside an iframe the pointer events go to the frame's window, never to the global one.
+    const target: Window = thumbElement?.ownerDocument.defaultView ?? window;
+    target.addEventListener("pointermove", move);
+    target.addEventListener("pointerup", end);
+    target.addEventListener("pointercancel", end);
     stopDrag = () => {
-      window.removeEventListener("pointermove", move);
-      window.removeEventListener("pointerup", end);
-      window.removeEventListener("pointercancel", end);
+      target.removeEventListener("pointermove", move);
+      target.removeEventListener("pointerup", end);
+      target.removeEventListener("pointercancel", end);
       stopDrag = undefined;
     };
   };
@@ -288,6 +292,9 @@ export function ScrollAreaThumb<T extends PolymorphicTarget = "div">(
     },
     rest,
     {
+      ref: composeRefs<HTMLElement>((node) => {
+        thumbElement = node;
+      }),
       onPointerDown: composeEventHandlers(
         () => own.onPointerDown as ((event: PointerEvent) => void) | undefined,
         startDrag,

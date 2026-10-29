@@ -33,8 +33,9 @@ function longestTiming(durations: string, delays: string): number {
   const delayList = delays.split(",");
   let longest = 0;
   for (let index = 0; index < durationList.length; index += 1) {
-    const total = toMs(durationList[index] ?? "") + toMs(delayList[index % delayList.length] ?? "");
-    if (toMs(durationList[index] ?? "") > 0 && total > longest) longest = total;
+    const duration = toMs(durationList[index] ?? "");
+    const total = duration + toMs(delayList[index % delayList.length] ?? "");
+    if (duration > 0 && total > longest) longest = total;
   }
   return longest;
 }

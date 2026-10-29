@@ -67,7 +67,9 @@ export function createPartContext<T>(root: string): PartContext<T> {
     use(part: string): T {
       const value = read();
       if (value === undefined) {
-        throw new Error(`[primitives] <${part}> must be used within <${root}>.`);
+        throw new Error(
+          __DEV__ ? `[primitives] <${part}> must be used within <${root}>.` : "PRIMITIVES_CONTEXT",
+        );
       }
       return value;
     },

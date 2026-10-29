@@ -1,4 +1,4 @@
-import { onCleanup, onMount, splitProps, useEffect, useSignal } from "@shadow-js/core";
+import { onCleanup, onMount, splitProps, untrack, useEffect, useSignal } from "@shadow-js/core";
 import type { JsxChild } from "@shadow-js/web/jsx-runtime";
 import {
   mergeElementProps,
@@ -19,6 +19,7 @@ import {
   questionnaireContext,
 } from "./context";
 import { isValid, type QuestionnaireItemStatus, shortcutKeys } from "./logic";
+import { inDocumentOrder } from "./order";
 
 /**
  * Own props of {@link QuestionnaireItem}.
@@ -110,6 +111,8 @@ export function QuestionnaireItem<T extends PolymorphicTarget = "fieldset">(
   const title = usePartRegistration();
   const description = usePartRegistration();
   let choices: ChoiceRecord[] = [];
+  // The choices in document order, for shortcut letters that match what the reader sees.
+  let sortedChoices: readonly ChoiceRecord[] | undefined;
   let bumping = false;
 
   const recompute = (): void => {
@@ -125,15 +128,17 @@ export function QuestionnaireItem<T extends PolymorphicTarget = "fieldset">(
     )
       setFailed(false);
   };
-  const choiceList = (): ChoiceRecord[] => {
+  const choiceList = (): readonly ChoiceRecord[] => {
     choiceVersion();
-    return choices;
+    sortedChoices ??= inDocumentOrder(choices, (choice) => untrack(choice.input));
+    return sortedChoices;
   };
   const bumpChoices = (): void => {
     if (bumping) return;
     bumping = true;
     queueMicrotask(() => {
       bumping = false;
+      sortedChoices = undefined;
       setChoiceVersion((value) => value + 1);
     });
   };
@@ -203,9 +208,11 @@ export function QuestionnaireItem<T extends PolymorphicTarget = "fieldset">(
     description,
     registerChoice: (choice) => {
       choices = [...choices, choice];
+      sortedChoices = undefined;
       bumpChoices();
       return () => {
         choices = choices.filter((entry) => entry !== choice);
+        sortedChoices = undefined;
         bumpChoices();
       };
     },

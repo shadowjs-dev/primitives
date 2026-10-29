@@ -55,16 +55,16 @@ export function getRovingTarget(input: RovingTargetInput): number | undefined {
   const { key, orientation, dir, loop, disabled, current } = input;
   const enabled = (index: number): boolean => disabled[index] === false;
   const count = disabled.length;
-  const first = (): number | undefined => {
-    for (let index = 0; index < count; index += 1) if (enabled(index)) return index;
+  // The first enabled index, scanning from the start or (when `reverse`) from the end.
+  const edge = (reverse: boolean): number | undefined => {
+    for (let at = 0; at < count; at += 1) {
+      const index = reverse ? count - 1 - at : at;
+      if (enabled(index)) return index;
+    }
     return undefined;
   };
-  const last = (): number | undefined => {
-    for (let index = count - 1; index >= 0; index -= 1) if (enabled(index)) return index;
-    return undefined;
-  };
-  if (key === "Home" || key === "PageUp") return first();
-  if (key === "End" || key === "PageDown") return last();
+  if (key === "Home" || key === "PageUp") return edge(false);
+  if (key === "End" || key === "PageDown") return edge(true);
 
   const horizontal = orientation !== "vertical";
   const vertical = orientation !== "horizontal";
@@ -75,7 +75,7 @@ export function getRovingTarget(input: RovingTargetInput): number | undefined {
   else if (vertical && key === "ArrowUp") step = -1;
   if (step === 0) return undefined;
 
-  if (current < 0 || current >= count) return step === 1 ? first() : last();
+  if (current < 0 || current >= count) return edge(step !== 1);
   for (let taken = 1; taken < count; taken += 1) {
     const raw = current + step * taken;
     if (!loop && (raw < 0 || raw >= count)) return undefined;

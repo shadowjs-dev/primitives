@@ -60,11 +60,7 @@ function isEventKey(key: string): boolean {
 }
 
 function sameInputs(a: readonly unknown[], b: readonly unknown[]): boolean {
-  if (a.length !== b.length) return false;
-  for (let index = 0; index < a.length; index += 1) {
-    if (!Object.is(a[index], b[index])) return false;
-  }
-  return true;
+  return a.length === b.length && a.every((item, index) => Object.is(item, b[index]));
 }
 
 /** CSS text for a style object (`backgroundColor` becomes `background-color`). */
@@ -115,7 +111,11 @@ function combineHandlers(values: readonly unknown[]): unknown {
       }
     }
     if (errors.length === 1) throw errors[0];
-    if (errors.length > 1) throw new AggregateError(errors, "Several event handlers threw.");
+    if (errors.length > 1)
+      throw new AggregateError(
+        errors,
+        __DEV__ ? "Several event handlers threw." : "PRIMITIVES_HANDLERS",
+      );
   };
   return composed;
 }

@@ -428,6 +428,19 @@ describe("createToaster", () => {
     expect(toaster.toasts()).toHaveLength(0);
   });
 
+  it("[PRIM-REV-5] promise: a source function that throws at once ends as a failed toast, not a loading one that never closes", async () => {
+    const toaster = createToaster({ duration: 3000 });
+    const handle = toaster.promise(
+      () => {
+        throw new Error("sync");
+      },
+      { loading: "Saving", success: "Saved", error: "Failed" },
+    );
+    await expect(handle.result).rejects.toThrow("sync");
+    await Promise.resolve();
+    expect(toaster.toasts()[0]).toMatchObject({ title: "Failed", duration: 3000 });
+  });
+
   it("[TST-Q20] no randomness or clock is read: two toasters produce the same ids", () => {
     const random = vi.spyOn(Math, "random");
     const now = vi.spyOn(Date, "now");

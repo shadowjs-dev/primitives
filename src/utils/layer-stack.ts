@@ -232,16 +232,17 @@ function eachTopDown(stack: Stack, fn: (entry: Entry, index: number) => void): v
     }
   }
   if (errors.length === 1) throw errors[0];
-  if (errors.length > 1) throw new AggregateError(errors, "Several layer handlers threw.");
+  if (errors.length > 1)
+    throw new AggregateError(
+      errors,
+      __DEV__ ? "Several layer handlers threw." : "PRIMITIVES_LAYERS",
+    );
 }
 
-function listeners(stack: Stack): {
-  keydown: (event: Event) => void;
-  pointerdown: (event: Event) => void;
-  pointercancel: () => void;
-  click: () => void;
-  focusin: (event: Event) => void;
-} {
+/** The document events a stack listens to, in capture phase. */
+const LISTENED = ["keydown", "pointerdown", "pointercancel", "click", "focusin"] as const;
+
+function listeners(stack: Stack): Record<(typeof LISTENED)[number], (event: Event) => void> {
   const onKeyDown = (event: Event): void => {
     if (!(event instanceof KeyboardEvent) || event.key !== "Escape" || event.isComposing) return;
     const top = stack.layers.at(-1);
@@ -302,11 +303,7 @@ function listen(stack: Stack): void {
   installed.set(stack, handlers);
   const document = stack.document;
   // Capture phase: runs before application handlers, so `stopPropagation()` inside the page cannot hide an outside press.
-  document.addEventListener("keydown", handlers.keydown, true);
-  document.addEventListener("pointerdown", handlers.pointerdown, true);
-  document.addEventListener("pointercancel", handlers.pointercancel, true);
-  document.addEventListener("click", handlers.click, true);
-  document.addEventListener("focusin", handlers.focusin, true);
+  for (const type of LISTENED) document.addEventListener(type, handlers[type], true);
 }
 
 function unlisten(stack: Stack): void {
@@ -315,11 +312,7 @@ function unlisten(stack: Stack): void {
   stack.listening = false;
   installed.delete(stack);
   const document = stack.document;
-  document.removeEventListener("keydown", handlers.keydown, true);
-  document.removeEventListener("pointerdown", handlers.pointerdown, true);
-  document.removeEventListener("pointercancel", handlers.pointercancel, true);
-  document.removeEventListener("click", handlers.click, true);
-  document.removeEventListener("focusin", handlers.focusin, true);
+  for (const type of LISTENED) document.removeEventListener(type, handlers[type], true);
 }
 
 /**

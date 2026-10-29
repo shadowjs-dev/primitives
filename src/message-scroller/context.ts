@@ -141,7 +141,20 @@ export function createMessageScrollerContext(
   let spacerElement: HTMLElement | undefined;
   const records = new Set<ItemRecord>();
   const byElement = new Map<HTMLElement, ItemRecord>();
+  // A lookup cache, not the truth: a row's id can change while its element stays (a temporary id
+  // replaced by the server's), so `recordById` checks the hit and scans the rows on a miss.
   const byId = new Map<string, ItemRecord>();
+  const recordById = (id: string): ItemRecord | undefined => {
+    const cached = byId.get(id);
+    if (cached !== undefined && cached.id() === id) return cached;
+    byId.delete(id);
+    for (const record of records) {
+      if (record.id() !== id) continue;
+      byId.set(id, record);
+      return record;
+    }
+    return undefined;
+  };
   /** The one jump that waits for its row to mount: a second request replaces it, so the wait never grows. */
   let queuedJump:
     | { readonly id: string; readonly options: MessageScrollToOptions | undefined }
@@ -314,7 +327,7 @@ export function createMessageScrollerContext(
   const jumpTo = (id: string, options: MessageScrollToOptions | undefined): boolean => {
     const root = viewport();
     if (root === undefined) return false;
-    const record = byId.get(id);
+    const record = recordById(id);
     following = false;
     if (record === undefined) {
       queuedJump = { id, options };
@@ -341,7 +354,7 @@ export function createMessageScrollerContext(
         ? undefined
         : reference.element.isConnected
           ? reference.element
-          : byId.get(reference.id ?? "")?.element;
+          : recordById(reference.id ?? "")?.element;
     if (preserve && reference !== undefined && watched !== undefined) {
       const correction = prependCorrection(
         reference.offset,
@@ -355,7 +368,7 @@ export function createMessageScrollerContext(
       if (record.fresh && record.anchor()) fresh = record;
       record.fresh = false;
     }
-    if (queuedJump !== undefined && byId.has(queuedJump.id)) {
+    if (queuedJump !== undefined && recordById(queuedJump.id) !== undefined) {
       const queued = queuedJump;
       jumpTo(queued.id, queued.options);
       return;

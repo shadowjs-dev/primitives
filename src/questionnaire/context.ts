@@ -1,4 +1,4 @@
-import { type Accessor, batch, onCleanup, onMount, useSignal } from "@shadow-js/core";
+import { type Accessor, batch, onCleanup, onMount, untrack, useSignal } from "@shadow-js/core";
 import {
   createPartContext,
   type PartContext,
@@ -17,6 +17,7 @@ import {
   type QuestionnaireShortcuts,
   statusOf,
 } from "./logic";
+import { inDocumentOrder } from "./order";
 
 /** The words the questionnaire writes itself, so an application can replace them (or translate them). @since 1.0.0 */
 export interface QuestionnaireMessages {
@@ -175,6 +176,8 @@ export function createQuestionnaireContext(
     name: "Questionnaire item",
   });
   let order: ItemRecord[] = [];
+  // The same records in document order; dropped whenever the list or an element may have changed.
+  let sorted: readonly ItemRecord[] | undefined;
   let form: HTMLFormElement | undefined;
   let initial: string | undefined;
 
@@ -184,12 +187,15 @@ export function createQuestionnaireContext(
     bumping = true;
     queueMicrotask(() => {
       bumping = false;
+      // The elements of items registered meanwhile exist by now: place them where they sit on the page.
+      sorted = undefined;
       setVersion((value) => value + 1);
     });
   };
   const items = (): readonly ItemRecord[] => {
     version();
-    return order;
+    sorted ??= inDocumentOrder(order, (record) => untrack(record.element));
+    return sorted;
   };
   const enabled = (): ItemRecord[] => items().filter((record) => !record.disabled());
   const current = (): string | undefined => {
@@ -254,9 +260,11 @@ export function createQuestionnaireContext(
     // because a signal written while components render would make that render run twice.
     register: (record) => {
       order = [...order, record];
+      sorted = undefined;
       bump();
       return () => {
         order = order.filter((entry) => entry !== record);
+        sorted = undefined;
         bump();
       };
     },
@@ -314,6 +322,7 @@ export function createQuestionnaireContext(
   });
   onCleanup(() => {
     order = [];
+    sorted = undefined;
     form = undefined;
   });
   return view;

@@ -99,6 +99,9 @@ slot count), `PRIMITIVES_OTP_INDEX` (out-of-range index), `PRIMITIVES_OTP_DUPLIC
 mounted index), `PRIMITIVES_OTP_PATTERN_LIMIT` (non-string or overlong pattern source) and
 `PRIMITIVES_OTP_PATTERN_INVALID` (invalid regex syntax). Pattern sources are limited to 256 characters.
 
+Other production codes: `PRIMITIVES_CONTEXT` (a part used outside its root), `PRIMITIVES_HANDLERS` (several
+merged event handlers threw) and `PRIMITIVES_LAYERS` (several layer handlers threw).
+
 ## Build the same things yourself
 `@shadow-js/primitives/utils` exports the infrastructure the primitives are made from: `Polymorphic`,
 `mergeElementProps`, `useControllableState`, `createPartContext`, `useBaseId`, `usePresence`,

@@ -205,7 +205,10 @@ function ContentLayer(layer: ContentLayerProps): JsxChild {
       get role() {
         return context.role;
       },
-      "aria-modal": modal() ? "true" : undefined,
+      // A getter: `modal` may change while the dialog is open, and the attribute must follow it.
+      get "aria-modal"() {
+        return modal() ? "true" : undefined;
+      },
       get "aria-labelledby"() {
         return context.title.present() ? context.titleId() : undefined;
       },
