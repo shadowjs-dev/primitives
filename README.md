@@ -19,7 +19,6 @@ hydrates, and ships no CSS.
 npm install @shadow-js/primitives @shadow-js/core @shadow-js/web
 ```
 
-ShadowJS 1.0.0 is not on npm yet. Until it is published, install it from this repository.
 `@shadow-js/core` and `@shadow-js/web` are peer dependencies, so install them next to it.
 
 ## Quick start
@@ -117,7 +116,7 @@ for the browser builds and the `ssr` target for the `dist/server` builds, which 
 ## Dependencies
 
 - Runtime: none.
-- Peers: `@shadow-js/core` and `@shadow-js/web` `^1.0.0`: state and rendering for the headless components.
+- Peers: `@shadow-js/core` and `@shadow-js/web` `^1.0.3`: state and rendering for the headless components.
 
 ## Types
 
