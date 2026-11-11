@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.5
+
+### Fixed
+
+- Date formatting and `parseDateInput` round-trip in every locale: Thai Buddhist years, and Arabic-Indic, Persian and Bengali digits. Locales whose default calendar does not follow the Gregorian grid (Persian, Hijri) are written as Gregorian dates in their own digits.
+- Number parsing removes a unit that contains a space (`pl-PL` `st. C`).
+- Presence asks `getAnimations()` before reading the computed style, so an exit with nothing animating skips the style cascade.
+
 ## 1.0.4
 
 ### Changed

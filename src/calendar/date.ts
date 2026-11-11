@@ -68,6 +68,56 @@ export type WeekStart = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 const REFERENCE_SUNDAY: CalendarDate = { year: 2024, month: 1, day: 7 };
 
 /**
+ * The calendar a locale's dates are written in, as far as the Gregorian grid can follow it: the Buddhist one
+ * (Thai) has the same months and days with a year 543 higher, so it is kept. Every other calendar a locale
+ * may default to (Persian, Hijri, Hebrew...) has months that do not line up with the grid, and would put a
+ * caption, a label or a typed date on a different day than the cell, so those are written as Gregorian.
+ * @internal
+ */
+function calendarOf(locale: string): "gregory" | "buddhist" {
+  let known = CALENDARS.get(locale);
+  if (known === undefined) {
+    known =
+      new Intl.DateTimeFormat(locale).resolvedOptions().calendar === "buddhist"
+        ? "buddhist"
+        : "gregory";
+    // A locale often comes from a request header or a URL: a full cache starts over instead of growing.
+    if (CALENDARS.size >= MAX_CACHED_LOCALES) CALENDARS.clear();
+    CALENDARS.set(locale, known);
+  }
+  return known;
+}
+
+/** Most locales {@link calendarOf} remembers; a month grid asks about the same one 42 times. @internal */
+const MAX_CACHED_LOCALES = 64;
+
+/** The calendar of each locale seen lately. @internal */
+const CALENDARS = new Map<string, "gregory" | "buddhist">();
+
+/** The years the Buddhist calendar is ahead of the Gregorian one. @internal */
+const BUDDHIST_OFFSET = 543;
+
+/**
+ * The code point of zero in each script whose ten digits are consecutive: ASCII, Arabic-Indic, Persian,
+ * Devanagari, Bengali, Thai, fullwidth and the others a date can be written in. @internal
+ */
+const DIGIT_ZEROS: readonly number[] = [
+  0x30, 0x660, 0x6f0, 0x7c0, 0x966, 0x9e6, 0xa66, 0xae6, 0xb66, 0xbe6, 0xc66, 0xce6, 0xd66, 0xde6,
+  0xe50, 0xed0, 0xf20, 0x1040, 0x1090, 0x17e0, 0x1810, 0xff10,
+];
+
+/** The text with every digit written as ASCII; any other character is kept. @internal */
+function asciiDigits(text: string): string {
+  let out = "";
+  for (const char of text) {
+    const code = char.codePointAt(0) ?? 0;
+    const zero = DIGIT_ZEROS.find((start) => code >= start && code < start + 10);
+    out += zero === undefined ? char : String(code - zero);
+  }
+  return out;
+}
+
+/**
  * The UTC instant at midnight of a calendar day. Years below 100 are kept as given (`setUTCFullYear`).
  * @internal
  */
@@ -342,6 +392,7 @@ export function monthCaption(locale: string, month: CalendarMonth): string {
     month: "long",
     year: "numeric",
     timeZone: "UTC",
+    calendar: calendarOf(locale),
   }).format(toUtc({ year: month.year, month: month.month, day: 1 }));
 }
 
@@ -365,6 +416,7 @@ export function dateLabel(locale: string, date: CalendarDate): string {
     month: "long",
     day: "numeric",
     timeZone: "UTC",
+    calendar: calendarOf(locale),
   }).format(toUtc(date));
 }
 
@@ -387,6 +439,7 @@ export function formatDate(locale: string, date: CalendarDate): string {
     month: "2-digit",
     day: "2-digit",
     timeZone: "UTC",
+    calendar: calendarOf(locale),
   }).format(toUtc(date));
 }
 
@@ -427,7 +480,7 @@ function isValid(date: CalendarDate): boolean {
 /**
  * Reads a typed date. ISO (`2026-03-05`) is always understood; otherwise the numbers are read in the
  * order the locale writes its numeric dates (month-day-year in English, day-month-year in German).
- * Two-digit years mean 2000 onwards. Returns `undefined` for anything that is not a real day.
+ * Two-digit years mean 2000 onwards. Digits of any numbering system are read, and in a locale that writes Buddhist years (Thai) a year from 2400 on is one. Returns `undefined` for anything that is not a real day.
  *
  * @param text What the user typed.
  * @param locale A BCP 47 tag.
@@ -442,7 +495,8 @@ function isValid(date: CalendarDate): boolean {
  * @since 1.0.0
  */
 export function parseDateInput(text: string, locale: string): CalendarDate | undefined {
-  const trimmed = text.trim();
+  // Digits of another numbering system (the ones `formatDate` writes for `ar-EG` or `fa-IR`) are read as ASCII.
+  const trimmed = asciiDigits(text.trim());
   const iso = /^(\d{4})-(\d{2})-(\d{2})$/.exec(trimmed);
   if (iso !== null) {
     const date = { year: Number(iso[1]), month: Number(iso[2]), day: Number(iso[3]) };
@@ -457,6 +511,9 @@ export function parseDateInput(text: string, locale: string): CalendarDate | und
     parts[field] = Number(raw);
     if (field === "year" && raw.length <= 2) parts.year = 2000 + Number(raw);
   });
+  // The Buddhist year `formatDate` writes for Thai (2569) names the Gregorian year 2026; a year before 2400 can
+  // only be a Gregorian one typed by hand, and is kept.
+  if (parts.year >= 2400 && calendarOf(locale) === "buddhist") parts.year -= BUDDHIST_OFFSET;
   return isValid(parts) ? parts : undefined;
 }
 

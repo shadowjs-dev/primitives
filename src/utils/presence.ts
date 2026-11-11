@@ -106,8 +106,16 @@ export function usePresence(present: () => boolean): Presence {
       setMounted(false);
       return;
     }
+    // The cheap question first: `getAnimations()` is one call with no style cascade, while
+    // `getComputedStyle` resolves the cascade for the element and every ancestor (very slow in
+    // happy-dom on a large document). The outcome is the same either way, because the content
+    // unmounts at once unless a duration is declared AND an animation is running.
+    if (!hasRunningAnimation(element)) {
+      setMounted(false);
+      return;
+    }
     const duration = exitDuration(element);
-    if (duration === 0 || !hasRunningAnimation(element)) {
+    if (duration === 0) {
       setMounted(false);
       return;
     }

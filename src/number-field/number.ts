@@ -150,8 +150,9 @@ export function createNumberFormatter(
       negative = true;
       s = s.slice(1, -1);
     }
-    if (affixPattern !== undefined) s = s.replace(affixPattern, "");
+    // Spaces go first: the affixes were collected without them, and a unit can hold one (pl-PL "st. C").
     s = s.replace(/\s+/gu, "");
+    if (affixPattern !== undefined) s = s.replace(affixPattern, "");
     // A sign may lead or trail the digits, nowhere else.
     if (MINUS_CLASS.test(s.charAt(0))) {
       negative = true;

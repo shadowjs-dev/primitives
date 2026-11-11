@@ -59,8 +59,8 @@ import { Dialog } from "@shadow-js/primitives";
 - **Server rendering**: ids come from the hydration scope, so the markup the server sends is what the
   client hydrates. A portal that is open at render time is server-rendered too: its markup goes to
   the end of `<body>` and hydration adopts it. Other portals mount on the client.
-- **No layout shift**: scroll locking compensates the scrollbar width, positioned content never
-  moves the page.
+- **No layout shift from scroll locking**: it adds the scrollbar width as padding, so the page
+  does not shift when a modal opens.
 
 ## Components
 | Primitive | Parts | Pattern |
@@ -116,7 +116,7 @@ for the browser builds and the `ssr` target for the `dist/server` builds, which 
 ## Dependencies
 
 - Runtime: none.
-- Peers: `@shadow-js/core` and `@shadow-js/web` `^1.0.3`: state and rendering for the headless components.
+- Peers: `@shadow-js/core` and `@shadow-js/web` `^1.0.5`: state and rendering for the headless components.
 
 ## Types
 
