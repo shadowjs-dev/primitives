@@ -38,8 +38,11 @@ function shadowCompile(generate, dev) {
           sourceMap: true,
         });
         return {
-          code: result.code, // A module without JSX comes back unchanged: an empty map says so and keeps the bundle's map exact.
-          map: result.map ?? { mappings: "" },
+          code: result.code,
+          // A module without JSX comes back unchanged and without a map. `null` tells the bundler the
+          // code did not move, so the module keeps its own map; `{ mappings: "" }` would say the opposite
+          // (no line maps anywhere) and empty that file's source map.
+          map: result.map ?? null,
           moduleType: "ts",
         };
       },

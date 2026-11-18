@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.1
+
+### Fixed
+
+- The source maps of `toggle-group/item.js` and `utils/polymorphic-tags.js` point at their sources again (1.1.0 shipped them empty).
+
 ## 1.1.0
 
 ### Changed
