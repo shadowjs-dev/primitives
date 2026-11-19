@@ -116,7 +116,7 @@ for the browser builds and the `ssr` target for the `dist/server` builds, which 
 ## Dependencies
 
 - Runtime: none.
-- Peers: `@shadow-js/core` and `@shadow-js/web` `^1.1.1`: state and rendering for the headless components.
+- Peers: `@shadow-js/core` and `@shadow-js/web` `^1.1.2`: state and rendering for the headless components.
 
 ## Types
 
