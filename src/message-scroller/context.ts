@@ -27,10 +27,15 @@ export interface MessageScrollToOptions {
 
 /** What a message scroller's state reads from its props. @since 1.0.0 */
 export interface MessageScrollerStateProps {
+  /** Follows new content while the reader is at the live edge. @default false */
   readonly autoScroll?: boolean | undefined;
+  /** Where the transcript is scrolled to when it first shows. @default "end" */
   readonly defaultScrollPosition?: MessageScrollPosition | undefined;
+  /** How close to an edge still counts as being at it, in pixels. @default 8 */
   readonly scrollEdgeThreshold?: number | undefined;
+  /** A margin kept on the aligned edge by jumps, visibility and the placement of anchored turns, in pixels. @default 0 */
   readonly scrollMargin?: number | undefined;
+  /** How much of the previous row stays visible above a new anchored turn, in pixels. @default 64 */
   readonly scrollPreviousItemPeek?: number | undefined;
 }
 

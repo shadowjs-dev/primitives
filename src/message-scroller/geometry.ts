@@ -164,9 +164,13 @@ export function prependCorrection(before: number, after: number): number {
 
 /** A message's place in a transcript, for deciding which are visible. @since 1.0.0 */
 export interface MessageBox {
+  /** The id of the message. */
   readonly id: string;
+  /** Whether the message starts a turn (an anchored message). */
   readonly anchor: boolean;
+  /** The distance of the message's top edge from the top of the content, in pixels. */
   readonly top: number;
+  /** The distance of the message's bottom edge from the top of the content, in pixels. */
   readonly bottom: number;
 }
 

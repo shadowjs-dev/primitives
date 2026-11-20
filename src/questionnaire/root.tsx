@@ -31,9 +31,13 @@ export interface QuestionnaireChoiceDefinition {
  * @since 1.0.0
  */
 export interface QuestionnaireItemDefinition {
+  /** The name of the item, unique in its questionnaire. */
   readonly name: string;
+  /** Whether the item needs an answer. @default false */
   readonly required?: boolean | undefined;
+  /** Whether the item is left out. @default false */
   readonly disabled?: boolean | undefined;
+  /** The fixed choices of the item, for one that offers a list. @default none */
   readonly choices?: readonly QuestionnaireChoiceDefinition[] | undefined;
 }
 

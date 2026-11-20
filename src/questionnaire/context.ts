@@ -141,7 +141,9 @@ export const itemContext: PartContext<ItemContextValue> =
 
 /** What the root's state reads from its props. @since 1.0.0 */
 export interface QuestionnaireStateProps {
+  /** The name of the item that is showing, for a controlled questionnaire. @default none */
   readonly item?: string | undefined;
+  /** The item that shows first. @default the first enabled item */
   readonly defaultItem?: string | undefined;
   readonly onItemChange?: ((item: string) => void) | undefined;
   readonly shortcuts?: QuestionnaireShortcuts | undefined;

@@ -81,6 +81,7 @@ export const navigationMenuContext: PartContext<NavigationMenuContextValue> =
  * @since 1.0.0
  */
 export interface NavigationMenuItemContextValue {
+  /** The value that identifies the item among the items of its menu. */
   readonly value: string;
 }
 

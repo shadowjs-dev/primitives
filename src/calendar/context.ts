@@ -26,9 +26,13 @@ export type CalendarValue = CalendarDate | readonly CalendarDate[] | CalendarRan
  * @since 1.0.0
  */
 export interface CalendarContextValue {
+  /** What a click selects: one day, several days or a range. */
   readonly mode: CalendarMode;
+  /** The locale the month, the weekdays and the day labels are written in, as a BCP 47 tag. */
   readonly locale: string;
+  /** The weekday of the first column. */
   readonly weekStartsOn: WeekStart;
+  /** The direction of the grid, which decides which arrow key moves to the next day. Tracked. */
   readonly dir: Accessor<Direction>;
   /** The month shown. Tracked. */
   readonly month: Accessor<CalendarMonth>;
@@ -36,13 +40,17 @@ export interface CalendarContextValue {
   readonly focused: Accessor<CalendarDate>;
   /** The rows of the shown grid (weeks of seven days). Tracked. */
   readonly weeks: Accessor<CalendarDate[][]>;
+  /** The labels of the seven columns, starting at `weekStartsOn`. Tracked. */
   readonly weekdays: Accessor<WeekdayLabel[]>;
   /** The caption of the shown month, e.g. "March 2026". Tracked. */
   readonly caption: Accessor<string>;
   /** The id of the caption, which the grid names itself with. */
   readonly captionId: Accessor<string>;
+  /** The day marked as today, or `undefined` when none is marked. */
   readonly today: CalendarDate | undefined;
+  /** Whether the month before the shown one may be shown (the minimum date allows it). Tracked. */
   readonly canGoPrevious: Accessor<boolean>;
+  /** Whether the month after the shown one may be shown (the maximum date allows it). Tracked. */
   readonly canGoNext: Accessor<boolean>;
   /** The selection. Tracked. */
   readonly value: Accessor<CalendarValue | undefined>;

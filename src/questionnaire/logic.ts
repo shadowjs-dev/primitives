@@ -9,8 +9,11 @@ export type QuestionnaireItemStatus = "unanswered" | "answered" | "skipped";
 
 /** What an item is, for the rules below. @since 1.0.0 */
 export interface ItemFacts {
+  /** The name of the item, unique in its questionnaire. */
   readonly name: string;
+  /** Whether the item is left out of the walk through the questionnaire. */
   readonly disabled: boolean;
+  /** Whether the item needs an answer before the questionnaire is complete. */
   readonly required: boolean;
 }
 
@@ -164,7 +167,9 @@ export interface Position {
   readonly current: number;
   /** How many enabled items there are. */
   readonly total: number;
+  /** Whether the current item is the first enabled one. */
   readonly first: boolean;
+  /** Whether the current item is the last enabled one. */
   readonly last: boolean;
 }
 

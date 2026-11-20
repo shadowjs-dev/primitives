@@ -11,8 +11,11 @@ import type { OneTimePasswordType } from "./logic";
  * @since 1.0.0
  */
 export interface OneTimePasswordContextValue {
+  /** The number of slots. */
   readonly length: number;
+  /** Which characters a slot accepts. */
   readonly type: OneTimePasswordType;
+  /** The characters entered so far. Tracked. */
   readonly value: Accessor<string>;
   readonly sanitize: (text: string) => string;
   readonly hasFilter: Accessor<boolean>;
